@@ -1,7 +1,6 @@
 package com.example.ecommercemono2.business.concretes;
 
 
-import com.example.ecommercemono2.business.abstracts.CartItemProductService;
 import com.example.ecommercemono2.business.abstracts.ProductService;
 import com.example.ecommercemono2.business.dto.request.cartItem.UpdateCartItemUnitPrice;
 import com.example.ecommercemono2.business.dto.request.product.ChangeProductUnitPrice;
