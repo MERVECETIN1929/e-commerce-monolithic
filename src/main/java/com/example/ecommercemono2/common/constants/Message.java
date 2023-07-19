@@ -46,4 +46,9 @@ public class Message {
         public static String NotExistUsersAddressByUserIdAndAddressId = "UserAddress Is Not  Exist";
 
     }
+    public static class Payment {
+        public static String NotExistId = "Payment Is Not Exist";
+        public static String ExistByCardNumber = "CardNumber Already  Exist";
+        public static String PaymentNotExists="Payment Is Not Exist";
+    }
 }
