@@ -23,13 +23,14 @@ public class AddressManager implements AddressService {
     private final ModelMapperService mapper;
     private final AddressRepository repository;
     private final AddressRules rules;
+
     @Override
     public CreateAddressResponse add(CreateAddressRequest request) {
         rules.existAddress(request);
-        Address address=mapper.forRequest().map(request,Address.class);
+        Address address = mapper.forRequest().map(request, Address.class);
         address.setId(null);
         repository.save(address);
-        return mapper.forResponse().map(address,CreateAddressResponse.class);
+        return mapper.forResponse().map(address, CreateAddressResponse.class);
     }
 
     @Override
@@ -40,18 +41,18 @@ public class AddressManager implements AddressService {
     @Override
     public GetAddressResponse getById(UUID id) {
         rules.existById(id);
-        return mapper.forResponse().map(repository.findById(id).orElseThrow(),GetAddressResponse.class);
+        return mapper.forResponse().map(repository.findById(id).orElseThrow(), GetAddressResponse.class);
     }
 
     @Override
     public UpdateAddressResponse update(UUID id, UpdateAddressRequest request) {
         rules.existById(id);
-        CreateAddressRequest createAddressRequest=mapper.forRequest().map(request,CreateAddressRequest.class);
+        CreateAddressRequest createAddressRequest = mapper.forRequest().map(request, CreateAddressRequest.class);
         rules.existAddress(createAddressRequest);
-        Address address=mapper.forRequest().map(request,Address.class);
+        Address address = mapper.forRequest().map(request, Address.class);
         address.setId(id);
         repository.save(address);
-        return mapper.forResponse().map(address,UpdateAddressResponse.class);
+        return mapper.forResponse().map(address, UpdateAddressResponse.class);
     }
 
     @Override
@@ -62,14 +63,15 @@ public class AddressManager implements AddressService {
 
     @Override
     public boolean existsTryCreateAddress(CreateAddressRequest request) {
-        return repository.existsByCityAndCountryAndFlatsNumberAndStreetAndPostCodeAndNeighbourhoodAndFloorNumber
-               (request.getCity(), request.getCountry(), request.getFlatsNumber(), request.getStreet(),
-               request.getPostCode(), request.getNeighbourhood(), request.getFloorNumber());
+        return repository.existsAddressByCityAndCountryAndFlatsNumberAndStreetAndPostCodeAndNeighbourhoodAndFloorNumber
+                (request.getCity(), request.getCountry(), request.getFlatsNumber(), request.getStreet(),
+                        request.getPostCode(), request.getNeighbourhood(), request.getFloorNumber());
     }
+
     public CreateAddressResponse findAddress(CreateAddressRequest request) {
         return mapper.forResponse().map(repository.findByCityAndCountryAndFlatsNumberAndStreetAndPostCodeAndNeighbourhoodAndFloorNumber
                 (request.getCity(), request.getCountry(), request.getFlatsNumber(), request.getStreet(),
-                request.getPostCode(), request.getNeighbourhood(), request.getFloorNumber()),CreateAddressResponse.class);
+                        request.getPostCode(), request.getNeighbourhood(), request.getFloorNumber()), CreateAddressResponse.class);
 
     }
 }

@@ -12,32 +12,36 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
+
 @AllArgsConstructor
 @RestController
 @RequestMapping("/api/cart")
 public class CartController {
     // todo add http status code
-    // todo mapper failed
-    // todo cretaecartItemden price kaldır
     private final CartService service;
+
     @PostMapping
-    public CreateCartResponse add(@RequestBody CreateCartRequest request){
+    public CreateCartResponse add(@RequestBody CreateCartRequest request) {
         return service.add(request);
     }
+
     @PutMapping("/{id}")
-    public UpdateCartResponse update(@PathVariable UUID id, @RequestBody UpdateCartRequest request){
-        return service.update(id,request);
+    public UpdateCartResponse update(@PathVariable UUID id, @RequestBody UpdateCartRequest request) {
+        return service.update(id, request);
     }
+
     @GetMapping("/{id}")
-    public GetCartResponse getById(@PathVariable UUID id){
+    public GetCartResponse getById(@PathVariable UUID id) {
         return service.getById(id);
     }
+
     @GetMapping
-    public List<GetAllCartsResponse> getAll(){
+    public List<GetAllCartsResponse> getAll() {
         return service.getAll();
     }
+
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable UUID id){
+    public void delete(@PathVariable UUID id) {
         service.delete(id);
     }
 }

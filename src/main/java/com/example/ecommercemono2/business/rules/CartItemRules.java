@@ -12,8 +12,9 @@ import java.util.UUID;
 @AllArgsConstructor
 public class CartItemRules {
     private final CartItemRepository repository;
-    public void existCartById(UUID id){
-        if(!repository.existsCartItemById(id)){
+
+    public void existCartById(UUID id) {
+        if (!repository.existsCartItemById(id)) {
             throw new BusinessException(Message.CartItem.NotExistId);
         }
     }

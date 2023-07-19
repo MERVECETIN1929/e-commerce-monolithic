@@ -12,8 +12,12 @@ import java.util.UUID;
 
 public interface UserService {
     CreateUserResponse add(CreateUserRequest request);
+
     UpdateUserResponse update(UUID userId, UpdateUserRequest request);
+
     GetUserResponse getById(UUID userId);
+
     List<GetAllUsersResponse> getAll();
+
     void delete(UUID userId);
 }

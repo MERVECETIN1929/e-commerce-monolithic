@@ -12,13 +12,15 @@ import java.util.UUID;
 @AllArgsConstructor
 public class BrandRules {
     private BrandRepository repository;
-    public void existByName(String brandName){
-        if(repository.existsByName(brandName)){
+
+    public void existByName(String brandName) {
+        if (repository.existsByName(brandName)) {
             throw new BusinessException(Message.Brand.AlreadyExistName);
         }
     }
-    public void  existById(UUID categoryId){
-        if(!repository.existsBrandById(categoryId)){
+
+    public void existById(UUID categoryId) {
+        if (!repository.existsBrandById(categoryId)) {
             throw new BusinessException(Message.Brand.NotExistId);
         }
     }

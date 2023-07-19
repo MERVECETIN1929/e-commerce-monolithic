@@ -11,14 +11,15 @@ import java.util.UUID;
 @AllArgsConstructor
 @Service
 public class BrandMapper {
-    public Brand createBrandRequestToBrand(CreateBrandRequest request){
-        Brand brand=new Brand();
+    public Brand createBrandRequestToBrand(CreateBrandRequest request) {
+        Brand brand = new Brand();
         brand.setId(UUID.randomUUID());
         brand.setName(request.getName());
         return brand;
     }
-    public Brand updateBrandRequestToBrand(UpdateBrandRequest request){
-        Brand brand=new Brand();
+
+    public Brand updateBrandRequestToBrand(UpdateBrandRequest request) {
+        Brand brand = new Brand();
         brand.setName(request.getName());
         return brand;
     }

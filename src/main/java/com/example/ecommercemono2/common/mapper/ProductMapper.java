@@ -18,10 +18,11 @@ public class ProductMapper {
     private final CategoryService categoryService;
     private final BrandService brandService;
     private final ModelMapper mapper;
-    public Product createProductRerquestToProduct(CreateProductRequest request){
-        Brand brand=mapper.map(brandService.getById(request.getBrandId()),Brand.class);
-        Category category=mapper.map(categoryService.getById(request.getCategoryId()),Category.class);
-        Product product=new Product();
+
+    public Product createProductRerquestToProduct(CreateProductRequest request) {
+        Brand brand = mapper.map(brandService.getById(request.getBrandId()), Brand.class);
+        Category category = mapper.map(categoryService.getById(request.getCategoryId()), Category.class);
+        Product product = new Product();
         product.setId(null);
         product.setBrand(brand);
         product.setCategory(category);
@@ -32,10 +33,11 @@ public class ProductMapper {
         product.setUnitPrice(request.getUnitPrice());
         return product;
     }
-    public Product updateProductRerquestToProduct(UpdateProductRequest request){
-        Brand brand=mapper.map(brandService.getById(request.getBrandId()),Brand.class);
-        Category category=mapper.map(categoryService.getById(request.getCategoryId()),Category.class);
-        Product product=new Product();
+
+    public Product updateProductRerquestToProduct(UpdateProductRequest request) {
+        Brand brand = mapper.map(brandService.getById(request.getBrandId()), Brand.class);
+        Category category = mapper.map(categoryService.getById(request.getCategoryId()), Category.class);
+        Product product = new Product();
         product.setBrand(brand);
         product.setCategory(category);
         product.setName(request.getName());

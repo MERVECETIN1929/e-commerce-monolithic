@@ -12,6 +12,6 @@ import java.util.UUID;
 @Getter
 @Setter
 public class UpdateCartItemUnitPrice {
-    private  UUID productId;
+    private UUID productId;
     private double unitPrice;
 }

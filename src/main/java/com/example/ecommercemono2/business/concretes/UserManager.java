@@ -14,7 +14,6 @@ import com.example.ecommercemono2.common.mapper.ModelMapperService;
 import com.example.ecommercemono2.entities.User;
 import com.example.ecommercemono2.repository.UserRepository;
 import lombok.AllArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -31,16 +30,16 @@ public class UserManager implements UserService {
     @Override
     public CreateUserResponse add(CreateUserRequest request) {
         rules.checkIfExistUserByEmail(request.getEmail());
-        var user=mapper.forRequest().map(request, User.class);
+        var user = mapper.forRequest().map(request, User.class);
         user.setId(UUID.randomUUID());
-        var saveUser=repository.save(user);
+        var saveUser = repository.save(user);
         cartService.add(new CreateCartRequest(saveUser.getId()));
-        return mapper.forResponse().map(saveUser,CreateUserResponse.class);
+        return mapper.forResponse().map(saveUser, CreateUserResponse.class);
     }
 
     @Override
     public UpdateUserResponse update(UUID userId, UpdateUserRequest request) {
-        User user=mapper.forRequest().map(request,User.class);
+        User user = mapper.forRequest().map(request, User.class);
         rules.checkIfExistUserById(userId);
         user.setId(userId);
         repository.save(user);
@@ -50,13 +49,13 @@ public class UserManager implements UserService {
     @Override
     public GetUserResponse getById(UUID userId) {
         rules.checkIfExistUserById(userId);
-        var user=repository.findById(userId);
-        return mapper.forResponse().map(user,GetUserResponse.class);
+        User user = repository.findById(userId).orElseThrow();
+        return mapper.forResponse().map(user, GetUserResponse.class);
     }
 
     @Override
     public List<GetAllUsersResponse> getAll() {
-        return repository.findAll().stream().map(user->mapper.forResponse().map(user, GetAllUsersResponse.class)).toList();
+        return repository.findAll().stream().map(user -> mapper.forResponse().map(user, GetAllUsersResponse.class)).toList();
     }
 
     @Override

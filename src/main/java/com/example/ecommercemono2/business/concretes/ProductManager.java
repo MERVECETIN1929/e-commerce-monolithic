@@ -32,7 +32,7 @@ public class ProductManager implements ProductService {
     public CreateProductResponse add(CreateProductRequest request) {
         rules.checkIfBrandExists(request.getBrandId());
         rules.checkIfCategoryExists(request.getCategoryId());
-        Product product=mapper.forRequest().map(request,Product.class);
+        Product product = mapper.forRequest().map(request, Product.class);
         product.setId(null);
         repository.save(product);
         return mapper.forResponse().map(product, CreateProductResponse.class);
@@ -41,7 +41,7 @@ public class ProductManager implements ProductService {
     @Override
     public UpdateProductResponse update(UUID productId, UpdateProductRequest request) {
         rules.existsProductById(productId);
-        Product product=mapper.forRequest().map(request,Product.class);
+        Product product = mapper.forRequest().map(request, Product.class);
         product.setId(productId);
         repository.save(product);
         return mapper.forResponse().map(product, UpdateProductResponse.class);
@@ -50,13 +50,13 @@ public class ProductManager implements ProductService {
     @Override
     public GetProductResponse getById(UUID productId) {
         rules.existsProductById(productId);
-        Product product=repository.findById(productId).orElseThrow();
-        return mapper.forResponse().map(product,GetProductResponse.class);
+        Product product = repository.findById(productId).orElseThrow();
+        return mapper.forResponse().map(product, GetProductResponse.class);
     }
 
     @Override
     public List<GetAllProductsResponse> getAll() {
-        return repository.findAll().stream().map(product->mapper.forResponse().map(product,GetAllProductsResponse.class)).toList();
+        return repository.findAll().stream().map(product -> mapper.forResponse().map(product, GetAllProductsResponse.class)).toList();
     }
 
     @Override
@@ -68,16 +68,16 @@ public class ProductManager implements ProductService {
     @Override
     public void changeProductUnitPrice(UUID productId, ChangeProductUnitPrice changeProductUnitPrice) {
         rules.existsProductById(productId);
-        Product product=mapper.forRequest().map(getById(productId),Product.class);
+        Product product = mapper.forRequest().map(getById(productId), Product.class);
         product.setUnitPrice(changeProductUnitPrice.getUnitPrice());
         product.setId(productId);
-        UpdateCartItemUnitPrice updateCartItemUnitPrice=new UpdateCartItemUnitPrice();
+        UpdateCartItemUnitPrice updateCartItemUnitPrice = new UpdateCartItemUnitPrice();
         updateCartItemUnitPrice.setProductId(productId);
         updateCartItemUnitPrice.setUnitPrice(changeProductUnitPrice.getUnitPrice());
         repository.save(product);
     }
 
-    private double priceAfterDiscount(double price,int discount){
-        return price-((price*discount)/100);
+    private double priceAfterDiscount(double price, int discount) {
+        return price - ((price * discount) / 100);
     }
 }

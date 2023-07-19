@@ -1,7 +1,6 @@
 package com.example.ecommercemono2.business.concretes;
 
 import com.example.ecommercemono2.business.abstracts.BrandService;
-
 import com.example.ecommercemono2.business.dto.request.brand.CreateBrandRequest;
 import com.example.ecommercemono2.business.dto.request.brand.UpdateBrandRequest;
 import com.example.ecommercemono2.business.dto.response.brand.CreateBrandResponse;
@@ -24,44 +23,45 @@ public class BrandManager implements BrandService {
     private final ModelMapperService mapper;
     private final BrandRules rules;
     private final BrandRepository repository;
+
     @Override
     public CreateBrandResponse add(CreateBrandRequest request) {
         rules.existByName(request.getName());
-        Brand brand=mapper.forRequest().map(request,Brand.class);
+        Brand brand = mapper.forRequest().map(request, Brand.class);
         brand.setId(UUID.randomUUID());
-        Brand saveBrand=repository.save(brand);
-        return mapper.forResponse().map(saveBrand,CreateBrandResponse.class);
+        Brand saveBrand = repository.save(brand);
+        return mapper.forResponse().map(saveBrand, CreateBrandResponse.class);
     }
 
     @Override
     public UpdateBrandResponse update(UUID brandId, UpdateBrandRequest request) {
-        Brand brand=mapper.forRequest().map(request,Brand.class);
+        Brand brand = mapper.forRequest().map(request, Brand.class);
         rules.existById(brandId);
         rules.existByName(request.getName());
         brand.setId(brandId);
-        var saveBrand=repository.save(brand);
-        return mapper.forResponse().map(saveBrand,UpdateBrandResponse.class);
+        var saveBrand = repository.save(brand);
+        return mapper.forResponse().map(saveBrand, UpdateBrandResponse.class);
     }
 
     @Override
     public GetBrandResponse getById(UUID brandId) {
         rules.existById(brandId);
-        Brand brand=repository.findById(brandId).orElseThrow();
+        Brand brand = repository.findById(brandId).orElseThrow();
 
-        return mapper.forResponse().map(brand,GetBrandResponse.class);
+        return mapper.forResponse().map(brand, GetBrandResponse.class);
     }
 
     @Override
     public List<GetAllBrandsResponse> getAll() {
         return repository.findAll().stream()
-                .map(brand-> mapper.forResponse().map(brand,GetAllBrandsResponse.class)).toList();
+                .map(brand -> mapper.forResponse().map(brand, GetAllBrandsResponse.class)).toList();
 
     }
 
     @Override
-    public void delete(UUID BrandId) {
-        rules.existById(BrandId);
-        repository.deleteById(BrandId);
+    public void delete(UUID brandId) {
+        rules.existById(brandId);
+        repository.deleteById(brandId);
     }
 
     @Override

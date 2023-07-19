@@ -13,14 +13,16 @@ import java.util.UUID;
 @AllArgsConstructor
 public class AddressRules {
     private AddressRepository repository;
-    public void existById(UUID id){
-        if(!repository.existsById(id)){
+
+    public void existById(UUID id) {
+        if (!repository.existsById(id)) {
             throw new BusinessException(Message.Address.NotExistId);
         }
     }
-    public void existAddress(CreateAddressRequest request){
-        if(!repository.existsByCityAndCountryAndFlatsNumberAndStreetAndPostCodeAndNeighbourhoodAndFloorNumber
-                (request.getCity(), request.getCountry(), request.getFlatsNumber(), request.getStreet(), request.getPostCode(), request.getNeighbourhood(), request.getFloorNumber())){
+
+    public void existAddress(CreateAddressRequest request) {
+        if (repository.existsAddressByCityAndCountryAndFlatsNumberAndStreetAndPostCodeAndNeighbourhoodAndFloorNumber
+                (request.getCity(), request.getCountry(), request.getFlatsNumber(), request.getStreet(), request.getPostCode(), request.getNeighbourhood(), request.getFloorNumber())) {
             throw new BusinessException(Message.Address.ExistAddress);
         }
     }

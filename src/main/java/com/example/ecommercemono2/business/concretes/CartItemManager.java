@@ -1,4 +1,5 @@
 package com.example.ecommercemono2.business.concretes;
+
 import com.example.ecommercemono2.business.abstracts.CartItemService;
 import com.example.ecommercemono2.business.abstracts.CartService;
 import com.example.ecommercemono2.business.abstracts.ProductService;
@@ -33,92 +34,90 @@ public class CartItemManager implements CartItemService {
     public CreateCartItemResponse add(CreateCartItemRequest request) {
 
         // EĞER SEPET İD VE KULLANICI İD AYNI OLAN KAYIR VARSA ADD SADECE SEPETTE BULUNAN ÜRÜNÜN MİKTARINI ARTTIRIR
-        CartItem cartItem=repository.findCartItemByCartIdAndProductId(request.getCartId(),request.getProductId());
-        CartItem requestCartItem=mapper.forRequest().map(request,CartItem.class);
-        Product product=mapper.forResponse().map(productService.getById(request.getProductId()),Product.class);
-        if(cartItem==null){
-            cartItem=requestCartItem;
+        CartItem cartItem = repository.findCartItemByCartIdAndProductId(request.getCartId(), request.getProductId());
+        CartItem requestCartItem = mapper.forRequest().map(request, CartItem.class);
+        Product product = mapper.forResponse().map(productService.getById(request.getProductId()), Product.class);
+        if (cartItem == null) {
+            cartItem = requestCartItem;
             cartItem.setId(UUID.randomUUID());
-            cartService.addPriceTotalPrice(product.getUnitPrice()*request.getQuantity(),request.getCartId());
-            cartItem.setTotalPrice(request.getQuantity()*product.getUnitPrice());
+            cartService.addPriceTotalPrice(product.getUnitPrice() * request.getQuantity(), request.getCartId());
+            cartItem.setTotalPrice(request.getQuantity() * product.getUnitPrice());
+        } else {
+            increaseQuantity(request, cartItem.getId());
         }
-        else{
-            increaseQuantity(request,cartItem.getId());
-        }
-        var saveCartItem=repository.save(cartItem);
+        var saveCartItem = repository.save(cartItem);
         return mapper.forResponse().map(saveCartItem, CreateCartItemResponse.class);
     }
 
     public UpdateCartItemResponse update(UUID cartItemId, UpdateCartItemRequest request) {
-        CartItem cartItem=mapper.forRequest().map(request,CartItem.class);
-        Product product=mapper.forResponse().map(productService.getById(request.getProductId()),Product.class);
+        CartItem cartItem = mapper.forRequest().map(request, CartItem.class);
+        Product product = mapper.forResponse().map(productService.getById(request.getProductId()), Product.class);
         rules.existCartById(cartItemId);
         cartItem.setId(cartItemId);
-        cartItem.setTotalPrice(totalPrice(product.getUnitPrice(),cartItem.getQuantity()));
-        var saveCartItem=repository.save(cartItem);
-        return mapper.forResponse().map(saveCartItem,UpdateCartItemResponse.class);
+        cartItem.setTotalPrice(totalPrice(product.getUnitPrice(), cartItem.getQuantity()));
+        var saveCartItem = repository.save(cartItem);
+        return mapper.forResponse().map(saveCartItem, UpdateCartItemResponse.class);
     }
 
     public GetCartItemResponse getById(UUID cartItemId) {
         rules.existCartById(cartItemId);
-        CartItem cartItem=repository.findById(cartItemId).orElseThrow();
-        Product product=mapper.forResponse().map(productService.getById(cartItem.getProduct().getId()),Product.class);
+        CartItem cartItem = repository.findById(cartItemId).orElseThrow();
+        Product product = mapper.forResponse().map(productService.getById(cartItem.getProduct().getId()), Product.class);
         cartItem.setTotalPrice(totalPrice(product.getUnitPrice(), cartItem.getQuantity()));
         repository.save(cartItem);
-        return mapper.forResponse().map(cartItem,GetCartItemResponse.class);
+        return mapper.forResponse().map(cartItem, GetCartItemResponse.class);
     }
 
     public List<GetAllCartItemsResponse> getAll() {
-            List<CartItem> cartItems=repository.findAll();
-            for(CartItem cartItem:cartItems){
-                Product product=mapper.forResponse().map(productService.getById(cartItem.getProduct().getId()),Product.class);
-                cartItem.setTotalPrice(totalPrice(product.getUnitPrice(), cartItem.getQuantity()));
-                repository.save(cartItem);
-            }
+        List<CartItem> cartItems = repository.findAll();
+        for (CartItem cartItem : cartItems) {
+            Product product = mapper.forResponse().map(productService.getById(cartItem.getProduct().getId()), Product.class);
+            cartItem.setTotalPrice(totalPrice(product.getUnitPrice(), cartItem.getQuantity()));
+            repository.save(cartItem);
+        }
         return cartItems.stream().
-               map(cartItem-> mapper.forResponse().map(cartItem,GetAllCartItemsResponse.class)).toList();
+                map(cartItem -> mapper.forResponse().map(cartItem, GetAllCartItemsResponse.class)).toList();
 
     }
 
     public void delete(UUID cartItemId) {
-       // sepetten ürünün direkt olarak silinmesi işini yapan metot
+        // sepetten ürünün direkt olarak silinmesi işini yapan metot
         rules.existCartById(cartItemId);
-        CartItem cartItem=mapper.forRequest().map(getById(cartItemId),CartItem.class);
+        CartItem cartItem = mapper.forRequest().map(getById(cartItemId), CartItem.class);
         repository.deleteById(cartItemId);
-        Product product=mapper.forResponse().map(productService.getById(cartItem.getProduct().getId()),Product.class);
-        cartService.minusPriceTotalPrice(cartItem.getQuantity()* product.getUnitPrice(),cartItem.getCart().getId());
+        Product product = mapper.forResponse().map(productService.getById(cartItem.getProduct().getId()), Product.class);
+        cartService.minusPriceTotalPrice(cartItem.getQuantity() * product.getUnitPrice(), cartItem.getCart().getId());
     }
 
     @Override
-    public void increaseQuantity(CreateCartItemRequest request,UUID cartItemId) {
+    public void increaseQuantity(CreateCartItemRequest request, UUID cartItemId) {
         // sepette bulunan ürünün miktarını arttıran metot
-        CartItem cartItem=mapper.forRequest().map(getById(cartItemId),CartItem.class);
-        cartItem.setQuantity(cartItem.getQuantity()+request.getQuantity());
+        CartItem cartItem = mapper.forRequest().map(getById(cartItemId), CartItem.class);
+        cartItem.setQuantity(cartItem.getQuantity() + request.getQuantity());
         cartItem.setId(cartItemId);
         //cartItem.setTotalPrice(totalPrice((calculateFinalPrice(cartItem.getUnitPrice(),cartItem.getDiscount())), cartItem.getQuantity()));
-        Product product=mapper.forResponse().map(productService.getById(request.getProductId()),Product.class);
-        cartService.addPriceTotalPrice(totalPrice(product.getUnitPrice(),request.getQuantity()),request.getCartId());
-        cartItem.setTotalPrice(cartItem.getTotalPrice()+totalPrice(product.getUnitPrice(), request.getQuantity()));
+        Product product = mapper.forResponse().map(productService.getById(request.getProductId()), Product.class);
+        cartService.addPriceTotalPrice(totalPrice(product.getUnitPrice(), request.getQuantity()), request.getCartId());
+        cartItem.setTotalPrice(cartItem.getTotalPrice() + totalPrice(product.getUnitPrice(), request.getQuantity()));
         repository.save(cartItem);
     }
 
     @Override
-    public void reduceQuantity(CreateCartItemRequest request,UUID cartItemId) {
+    public void reduceQuantity(CreateCartItemRequest request, UUID cartItemId) {
         // sepette bulunan ürünün miktarını azaltan metot.
         // sadece tek ürün varsa cartItemi direkt olarak sil.
-        CartItem cartItem= mapper.forRequest().map(getById(cartItemId), CartItem.class);
-        if(cartItem.getQuantity()==1){
+        CartItem cartItem = mapper.forRequest().map(getById(cartItemId), CartItem.class);
+        if (cartItem.getQuantity() == 1) {
             delete(cartItemId);
-        }
-        else{
-            cartItem.setQuantity(cartItem.getQuantity()-1);
-           // cartItem.setTotalPrice(totalPrice((calculateFinalPrice(cartItem.getUnitPrice(),cartItem.getDiscount())), cartItem.getQuantity()));
-            Product product=mapper.forResponse().map(productService.getById(request.getProductId()),Product.class);
-            cartService.minusPriceTotalPrice(totalPrice(product.getUnitPrice(),request.getQuantity()),request.getCartId());
+        } else {
+            cartItem.setQuantity(cartItem.getQuantity() - 1);
+            // cartItem.setTotalPrice(totalPrice((calculateFinalPrice(cartItem.getUnitPrice(),cartItem.getDiscount())), cartItem.getQuantity()));
+            Product product = mapper.forResponse().map(productService.getById(request.getProductId()), Product.class);
+            cartService.minusPriceTotalPrice(totalPrice(product.getUnitPrice(), request.getQuantity()), request.getCartId());
             cartItem.setId(cartItemId);
-            cartItem.setTotalPrice(cartItem.getTotalPrice()-totalPrice(product.getUnitPrice(), request.getQuantity()));
+            cartItem.setTotalPrice(cartItem.getTotalPrice() - totalPrice(product.getUnitPrice(), request.getQuantity()));
             repository.save(cartItem);
-            }
+        }
 
     }
 
@@ -127,11 +126,12 @@ public class CartItemManager implements CartItemService {
 
     }
 
-    private double calculateFinalPrice(double price,int discount){
-        return price-((price*discount)/100);
+    private double calculateFinalPrice(double price, int discount) {
+        return price - ((price * discount) / 100);
     }
-    private double totalPrice(double price,int quantity){
-        return price*quantity;
+
+    private double totalPrice(double price, int quantity) {
+        return price * quantity;
     }
 
 }

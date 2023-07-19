@@ -19,24 +19,29 @@ import java.util.UUID;
 public class BrandController {
     // todo add http status code
     private final BrandService service;
+
     @PostMapping
-    public CreateBrandResponse add(@RequestBody CreateBrandRequest request){
+    public CreateBrandResponse add(@RequestBody CreateBrandRequest request) {
         return service.add(request);
     }
+
     @PutMapping("/{id}")
-    public UpdateBrandResponse update(@PathVariable UUID id,@RequestBody UpdateBrandRequest request){
-        return service.update(id,request);
+    public UpdateBrandResponse update(@PathVariable UUID id, @RequestBody UpdateBrandRequest request) {
+        return service.update(id, request);
     }
+
     @GetMapping("/{id}")
-    public GetBrandResponse getById(@PathVariable UUID id){
+    public GetBrandResponse getById(@PathVariable UUID id) {
         return service.getById(id);
     }
+
     @GetMapping
-    public List<GetAllBrandsResponse> getAll(){
+    public List<GetAllBrandsResponse> getAll() {
         return service.getAll();
     }
+
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable UUID id){
+    public void delete(@PathVariable UUID id) {
         service.delete(id);
     }
 }

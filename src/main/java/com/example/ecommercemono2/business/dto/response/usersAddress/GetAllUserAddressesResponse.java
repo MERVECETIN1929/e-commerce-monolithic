@@ -1,15 +1,19 @@
-package com.example.ecommercemono2.business.dto.request.address;
+package com.example.ecommercemono2.business.dto.response.usersAddress;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.UUID;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class CreateAddressRequest {
+public class GetAllUserAddressesResponse {
+    private UUID id;
+    private UUID addressId;
     private String city;
     private String country;
     private int postCode;
@@ -17,5 +21,4 @@ public class CreateAddressRequest {
     private String street;
     private int flatsNumber;
     private int floorNumber;
-
 }

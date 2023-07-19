@@ -19,28 +19,34 @@ import java.util.UUID;
 @RequestMapping("/api/product")
 public class ProductController {
     private final ProductService service;
+
     @PostMapping
-    public CreateProductResponse add(@RequestBody CreateProductRequest request){
+    public CreateProductResponse add(@RequestBody CreateProductRequest request) {
         return service.add(request);
     }
+
     @PutMapping("/{id}")
-    public UpdateProductResponse update(@PathVariable UUID id,@RequestBody UpdateProductRequest request){
-        return service.update(id,request);
+    public UpdateProductResponse update(@PathVariable UUID id, @RequestBody UpdateProductRequest request) {
+        return service.update(id, request);
     }
+
     @GetMapping("/{id}")
-    public GetProductResponse getById(@PathVariable UUID id){
+    public GetProductResponse getById(@PathVariable UUID id) {
         return service.getById(id);
     }
+
     @GetMapping
-    public List<GetAllProductsResponse> getAll(){
+    public List<GetAllProductsResponse> getAll() {
         return service.getAll();
     }
+
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable UUID id){
+    public void delete(@PathVariable UUID id) {
         service.delete(id);
     }
+
     @PutMapping("/change-product-unit-price/{id}")
-    public void changeProductUnitPrice(@PathVariable UUID id,@RequestBody ChangeProductUnitPrice changeProductUnitPrice) {
-        service.changeProductUnitPrice(id,changeProductUnitPrice);
+    public void changeProductUnitPrice(@PathVariable UUID id, @RequestBody ChangeProductUnitPrice changeProductUnitPrice) {
+        service.changeProductUnitPrice(id, changeProductUnitPrice);
     }
 }

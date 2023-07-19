@@ -16,18 +16,21 @@ public class ProductRules {
     private final ProductRepository repository;
     private final BrandService brandService;
     private final CategoryService categoryService;
-    public void existsProductById(UUID id){
-        if(!repository.existsProductById(id)){
+
+    public void existsProductById(UUID id) {
+        if (!repository.existsProductById(id)) {
             throw new BusinessException(Message.Product.NotExistId);
         }
     }
-    public void checkIfBrandExists(UUID brandId){
-        if(!brandService.checkIfBrandExist(brandId)){
+
+    public void checkIfBrandExists(UUID brandId) {
+        if (!brandService.checkIfBrandExist(brandId)) {
             throw new BusinessException(Message.Brand.NotExistId);
         }
     }
-    public void checkIfCategoryExists(UUID categoryId){
-        if(!categoryService.checkIfCategoryExist(categoryId)){
+
+    public void checkIfCategoryExists(UUID categoryId) {
+        if (!categoryService.checkIfCategoryExist(categoryId)) {
             throw new BusinessException(Message.Category.NotExistId);
         }
     }

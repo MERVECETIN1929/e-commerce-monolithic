@@ -12,13 +12,15 @@ import java.util.UUID;
 @AllArgsConstructor
 public class UserRules {
     private final UserRepository repository;
-    public void checkIfExistUserById(UUID id){
-        if(!repository.existsUserById(id)){
+
+    public void checkIfExistUserById(UUID id) {
+        if (!repository.existsUserById(id)) {
             throw new BusinessException(Message.User.NotExistId);
         }
     }
-    public void checkIfExistUserByEmail(String email){
-        if(repository.existsUserByEmail(email)){
+
+    public void checkIfExistUserByEmail(String email) {
+        if (repository.existsUserByEmail(email)) {
             throw new BusinessException(Message.User.AlreadyExistEmail);
         }
     }

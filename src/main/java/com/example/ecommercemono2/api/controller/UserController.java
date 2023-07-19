@@ -18,24 +18,29 @@ import java.util.UUID;
 @RequestMapping("/api/user")
 public class UserController {
     private final UserService service;
+
     @PostMapping
-    public CreateUserResponse add(@RequestBody CreateUserRequest request){
+    public CreateUserResponse add(@RequestBody CreateUserRequest request) {
         return service.add(request);
     }
+
     @PutMapping("/{id}")
-    public UpdateUserResponse update(@PathVariable UUID id,@RequestBody UpdateUserRequest request){
-        return service.update(id,request);
+    public UpdateUserResponse update(@PathVariable UUID id, @RequestBody UpdateUserRequest request) {
+        return service.update(id, request);
     }
+
     @GetMapping("/{id}")
-    public GetUserResponse getById(@PathVariable UUID id){
+    public GetUserResponse getById(@PathVariable UUID id) {
         return service.getById(id);
     }
+
     @GetMapping
-    public List<GetAllUsersResponse> getAll(){
+    public List<GetAllUsersResponse> getAll() {
         return service.getAll();
     }
+
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable UUID id){
+    public void delete(@PathVariable UUID id) {
         service.delete(id);
     }
 }

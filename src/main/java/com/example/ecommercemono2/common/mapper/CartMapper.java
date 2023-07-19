@@ -16,15 +16,17 @@ import java.util.UUID;
 public class CartMapper {
     private final ModelMapper mapper;
     private final UserService userService;
-    public Cart createCartRequestToCart(CreateCartRequest request){
-        Cart cart=new Cart();
-        User user=mapper.map(userService.getById(request.getUserId()),User.class);
+
+    public Cart createCartRequestToCart(CreateCartRequest request) {
+        Cart cart = new Cart();
+        User user = mapper.map(userService.getById(request.getUserId()), User.class);
         cart.setId(UUID.randomUUID());
         cart.setUser(user);
         return cart;
     }
-    public Cart updateCartRequestToCart(UpdateCartRequest request){
-        Cart cart=new Cart();
+
+    public Cart updateCartRequestToCart(UpdateCartRequest request) {
+        Cart cart = new Cart();
         cart.setTotalPrice(request.getPrice());
         return cart;
     }

@@ -12,13 +12,15 @@ import java.util.UUID;
 @AllArgsConstructor
 public class CategoryRules {
     private CategoryRepository repository;
-    public void existByName(String categoryName){
-        if(repository.existsByName(categoryName)){
+
+    public void existByName(String categoryName) {
+        if (repository.existsByName(categoryName)) {
             throw new BusinessException(Message.Category.AlreadyExistName);
         }
     }
-    public void  existById(UUID categoryId){
-        if(!repository.existsCategoryById(categoryId)){
+
+    public void existById(UUID categoryId) {
+        if (!repository.existsCategoryById(categoryId)) {
             throw new BusinessException(Message.Category.NotExistId);
         }
     }

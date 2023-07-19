@@ -12,29 +12,35 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
+
 @AllArgsConstructor
 @RestController
 @RequestMapping("/api/category")
 public class CategoryController {
     private final CategoryService service;
+
     @PostMapping
-    public CreateCategoryResponse add(@RequestBody CreateCategoryRequest request){
+    public CreateCategoryResponse add(@RequestBody CreateCategoryRequest request) {
         return service.add(request);
     }
+
     @PutMapping("/{id}")
-    public UpdateCategoryResponse update(@PathVariable UUID id,@RequestBody UpdateCategoryRequest request){
-        return service.update(id,request);
+    public UpdateCategoryResponse update(@PathVariable UUID id, @RequestBody UpdateCategoryRequest request) {
+        return service.update(id, request);
     }
+
     @GetMapping("/{id}")
-    public GetCategoryResponse getById(@PathVariable UUID id){
+    public GetCategoryResponse getById(@PathVariable UUID id) {
         return service.getById(id);
     }
+
     @GetMapping
-    public List<GetAllCategoriesResponse> getAll(){
+    public List<GetAllCategoriesResponse> getAll() {
         return service.getAll();
     }
+
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable UUID id){
+    public void delete(@PathVariable UUID id) {
         service.delete(id);
     }
 }

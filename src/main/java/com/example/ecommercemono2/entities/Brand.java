@@ -1,4 +1,5 @@
 package com.example.ecommercemono2.entities;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

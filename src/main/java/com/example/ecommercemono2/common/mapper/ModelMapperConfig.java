@@ -5,15 +5,16 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class ModelMapperConfig{
+public class ModelMapperConfig {
 
 
     @Bean
-    public ModelMapper getModelMapper(){
+    public ModelMapper getModelMapper() {
         return new ModelMapper();
     }
+
     @Bean
-    public ModelMapperService getModelMapperService(ModelMapper mapper){
+    public ModelMapperService getModelMapperService(ModelMapper mapper) {
         return new ModelMapperManager(mapper);
     }
 }
