@@ -8,6 +8,7 @@ import com.example.ecommercemono2.business.dto.response.product.CreateProductRes
 import com.example.ecommercemono2.business.dto.response.product.GetAllProductsResponse;
 import com.example.ecommercemono2.business.dto.response.product.GetProductResponse;
 import com.example.ecommercemono2.business.dto.response.product.UpdateProductResponse;
+import com.example.ecommercemono2.entities.CartItem;
 
 import java.util.List;
 import java.util.UUID;
@@ -24,4 +25,6 @@ public interface ProductService {
     void delete(UUID productId);
 
     void changeProductUnitPrice(UUID productId, ChangeProductUnitPrice changeProductUnitPrice);
+    void checkProductStock(List<CartItem> cartItems);
+    void dropOutOfStock(List<CartItem> cartItems);
 }

@@ -34,4 +34,9 @@ public class ProductRules {
             throw new BusinessException(Message.Category.NotExistId);
         }
     }
+    public void checkProductStock(UUID productId,int quantity){
+        if (repository.findById(productId).orElseThrow().getStock()<quantity){
+            throw new BusinessException(Message.Product.NoStock);
+        }
+    }
 }

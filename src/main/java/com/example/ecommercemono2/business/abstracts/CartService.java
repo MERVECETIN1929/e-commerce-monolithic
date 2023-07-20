@@ -7,6 +7,7 @@ import com.example.ecommercemono2.business.dto.response.cart.CreateCartResponse;
 import com.example.ecommercemono2.business.dto.response.cart.GetAllCartsResponse;
 import com.example.ecommercemono2.business.dto.response.cart.GetCartResponse;
 import com.example.ecommercemono2.business.dto.response.cart.UpdateCartResponse;
+import com.example.ecommercemono2.entities.Cart;
 
 import java.util.List;
 import java.util.UUID;
@@ -26,5 +27,7 @@ public interface CartService {
 
     void minusPriceTotalPrice(double minusPrice, UUID cartId);
 
-    void changeTotalPrice();
+    double changeTotalPrice(UUID id);
+    Cart getCartByUserId(UUID userId);
+    void clearCart(UUID cartId);
 }

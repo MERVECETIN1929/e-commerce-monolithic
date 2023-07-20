@@ -15,6 +15,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -25,6 +26,7 @@ public class CartManager implements CartService {
     private final CartRules rules;
     private final CartRepository repository;
 
+//todo product price değişirse total price değiş
     @Override
     public CreateCartResponse add(CreateCartRequest request) {
         Cart cart = mapper.forRequest().map(request, Cart.class);
@@ -47,6 +49,8 @@ public class CartManager implements CartService {
     public GetCartResponse getById(UUID cartId) {
         rules.existById(cartId);
         Cart cart = repository.findById(cartId).orElseThrow();
+        cart.setTotalPrice(changeTotalPrice(cartId));
+        repository.save(cart);
         return mapper.forResponse().map(cart, GetCartResponse.class);
     }
 
@@ -81,8 +85,23 @@ public class CartManager implements CartService {
     }
 
     @Override
-    public void changeTotalPrice() {
-
+    public double changeTotalPrice(UUID id) {
+        if(repository.calculateTotalPrice(id).isEmpty()){
+            return 0;
+        }
+          return  repository.calculateTotalPrice(id).get();
     }
 
+    @Override
+    public Cart getCartByUserId(UUID userId) {
+        return repository.findByUserId(userId);
+    }
+    public void clearCart(UUID id){
+        rules.existById(id);
+        Cart cart=repository.findById(id).orElseThrow();
+        cart.setTotalPrice(0);
+        cart.setTotalPrice(0);
+        repository.save(cart);
+
+    }
 }

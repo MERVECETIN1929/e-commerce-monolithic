@@ -8,6 +8,8 @@ import com.example.ecommercemono2.business.dto.response.payment.GetAllPaymentsRe
 import com.example.ecommercemono2.business.dto.response.payment.GetPaymentResponse;
 import com.example.ecommercemono2.business.dto.response.payment.UpdatePaymentResponse;
 import com.example.ecommercemono2.business.rules.PaymentRules;
+import com.example.ecommercemono2.common.dto.PaymentRequest;
+import com.example.ecommercemono2.common.dto.payment.OrderPaymentRequest;
 import com.example.ecommercemono2.common.mapper.ModelMapperService;
 import com.example.ecommercemono2.entities.Payment;
 import com.example.ecommercemono2.repository.PaymentRepository;
@@ -58,4 +60,14 @@ public class PaymentManager implements PaymentService {
         rules.existsById(id);
         repository.deleteById(id);
     }
+
+    @Override
+    public void pay(OrderPaymentRequest request) {
+        rules.existsPaymentByCardNumberAndCardHolderNameAndCvvAndMonthAndYear(request);
+        rules.isBalanceEnough(request);
+        Payment payment=repository.findPaymentByCardNumber(request.getCardNumber());
+        payment.setBalance(payment.getBalance()- request.getTotalPrice());
+        repository.save(payment);
+    }
+
 }

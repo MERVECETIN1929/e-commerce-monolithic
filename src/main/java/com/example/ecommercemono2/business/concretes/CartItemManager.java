@@ -80,6 +80,11 @@ public class CartItemManager implements CartItemService {
 
     }
 
+    @Override
+    public List<CartItem> getAllCartItemsByCartId(UUID cartId) {
+        return repository.findAllByCartId(cartId);
+    }
+
     public void delete(UUID cartItemId) {
         // sepetten ürünün direkt olarak silinmesi işini yapan metot
         rules.existCartById(cartItemId);
@@ -119,6 +124,11 @@ public class CartItemManager implements CartItemService {
             repository.save(cartItem);
         }
 
+    }
+
+    @Override
+    public void deleteAllByCartId(UUID cartId) {
+        repository.deleteAllByCartId(cartId);
     }
 
     @Override

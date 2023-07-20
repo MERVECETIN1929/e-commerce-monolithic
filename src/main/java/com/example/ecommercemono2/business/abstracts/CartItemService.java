@@ -7,6 +7,7 @@ import com.example.ecommercemono2.business.dto.response.cartItem.CreateCartItemR
 import com.example.ecommercemono2.business.dto.response.cartItem.GetAllCartItemsResponse;
 import com.example.ecommercemono2.business.dto.response.cartItem.GetCartItemResponse;
 import com.example.ecommercemono2.business.dto.response.cartItem.UpdateCartItemResponse;
+import com.example.ecommercemono2.entities.CartItem;
 
 import java.util.List;
 import java.util.UUID;
@@ -19,12 +20,14 @@ public interface CartItemService {
     GetCartItemResponse getById(UUID cartItemId);
 
     List<GetAllCartItemsResponse> getAll();
+    List<CartItem> getAllCartItemsByCartId(UUID cartId);
 
     void delete(UUID cartItemId);
 
     void increaseQuantity(CreateCartItemRequest request, UUID cartId);
 
     void reduceQuantity(CreateCartItemRequest request, UUID cartId);
+    void deleteAllByCartId(UUID cartId);
 
     void updateCartItemUnitPriceAntTotalPrice(UpdateCartItemUnitPrice updateCartItemUnitPrice);
 }

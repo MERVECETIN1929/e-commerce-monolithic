@@ -12,6 +12,7 @@ import com.example.ecommercemono2.business.dto.response.product.GetProductRespon
 import com.example.ecommercemono2.business.dto.response.product.UpdateProductResponse;
 import com.example.ecommercemono2.business.rules.ProductRules;
 import com.example.ecommercemono2.common.mapper.ModelMapperService;
+import com.example.ecommercemono2.entities.CartItem;
 import com.example.ecommercemono2.entities.Product;
 import com.example.ecommercemono2.repository.ProductRepository;
 import lombok.AllArgsConstructor;
@@ -75,6 +76,22 @@ public class ProductManager implements ProductService {
         updateCartItemUnitPrice.setProductId(productId);
         updateCartItemUnitPrice.setUnitPrice(changeProductUnitPrice.getUnitPrice());
         repository.save(product);
+    }
+
+    @Override
+    public void checkProductStock(List<CartItem> cartItems) {
+        for (CartItem cartItem:cartItems){
+            rules.checkProductStock(cartItem.getProduct().getId(),cartItem.getQuantity());
+        }
+    }
+
+    @Override
+    public void dropOutOfStock(List<CartItem> cartItems) {
+        for (CartItem cartItem:cartItems){
+            Product product=mapper.forResponse().map(getById(cartItem.getProduct().getId()),Product.class);
+            product.setStock(product.getStock()-cartItem.getQuantity());
+            repository.save(product);
+        }
     }
 
     private double priceAfterDiscount(double price, int discount) {

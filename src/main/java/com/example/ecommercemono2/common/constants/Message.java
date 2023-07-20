@@ -32,6 +32,7 @@ public class Message {
 
     public static class Product {
         public static String NotExistId = "Product Is Not Exist";
+        public static String  NoStock = "Product Is Not In Stock";
 
     }
 
@@ -50,5 +51,6 @@ public class Message {
         public static String NotExistId = "Payment Is Not Exist";
         public static String ExistByCardNumber = "CardNumber Already  Exist";
         public static String PaymentNotExists="Payment Is Not Exist";
+        public static String BalanceNotEnough="Balance Not Enough";
     }
 }
