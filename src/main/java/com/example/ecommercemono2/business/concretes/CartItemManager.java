@@ -12,6 +12,7 @@ import com.example.ecommercemono2.business.dto.response.cartItem.GetCartItemResp
 import com.example.ecommercemono2.business.dto.response.cartItem.UpdateCartItemResponse;
 import com.example.ecommercemono2.business.rules.CartItemRules;
 import com.example.ecommercemono2.common.mapper.ModelMapperService;
+import com.example.ecommercemono2.entities.Cart;
 import com.example.ecommercemono2.entities.CartItem;
 import com.example.ecommercemono2.entities.Product;
 import com.example.ecommercemono2.repository.CartItemRepository;
@@ -34,13 +35,14 @@ public class CartItemManager implements CartItemService {
     public CreateCartItemResponse add(CreateCartItemRequest request) {
 
         // EĞER SEPET İD VE KULLANICI İD AYNI OLAN KAYIR VARSA ADD SADECE SEPETTE BULUNAN ÜRÜNÜN MİKTARINI ARTTIRIR
-        CartItem cartItem = repository.findCartItemByCartIdAndProductId(request.getCartId(), request.getProductId());
+        Cart cart=mapper.forRequest().map(cartService.getCartByUserId(request.getUserId()),Cart.class);
+        CartItem cartItem = repository.findCartItemByCartIdAndProductId(cart.getId(), request.getProductId());
         CartItem requestCartItem = mapper.forRequest().map(request, CartItem.class);
         Product product = mapper.forResponse().map(productService.getById(request.getProductId()), Product.class);
         if (cartItem == null) {
             cartItem = requestCartItem;
             cartItem.setId(UUID.randomUUID());
-            cartService.addPriceTotalPrice(product.getUnitPrice() * request.getQuantity(), request.getCartId());
+            cartService.addPriceTotalPrice(product.getUnitPrice() * request.getQuantity(), cart.getId());
             cartItem.setTotalPrice(request.getQuantity() * product.getUnitPrice());
         } else {
             increaseQuantity(request, cartItem.getId());
@@ -97,12 +99,12 @@ public class CartItemManager implements CartItemService {
     @Override
     public void increaseQuantity(CreateCartItemRequest request, UUID cartItemId) {
         // sepette bulunan ürünün miktarını arttıran metot
+        Cart cart=mapper.forRequest().map(cartService.getCartByUserId(request.getUserId()),Cart.class);
         CartItem cartItem = mapper.forRequest().map(getById(cartItemId), CartItem.class);
         cartItem.setQuantity(cartItem.getQuantity() + request.getQuantity());
         cartItem.setId(cartItemId);
-        //cartItem.setTotalPrice(totalPrice((calculateFinalPrice(cartItem.getUnitPrice(),cartItem.getDiscount())), cartItem.getQuantity()));
         Product product = mapper.forResponse().map(productService.getById(request.getProductId()), Product.class);
-        cartService.addPriceTotalPrice(totalPrice(product.getUnitPrice(), request.getQuantity()), request.getCartId());
+        cartService.addPriceTotalPrice(totalPrice(product.getUnitPrice(), request.getQuantity()), cart.getId());
         cartItem.setTotalPrice(cartItem.getTotalPrice() + totalPrice(product.getUnitPrice(), request.getQuantity()));
         repository.save(cartItem);
     }
@@ -112,13 +114,13 @@ public class CartItemManager implements CartItemService {
         // sepette bulunan ürünün miktarını azaltan metot.
         // sadece tek ürün varsa cartItemi direkt olarak sil.
         CartItem cartItem = mapper.forRequest().map(getById(cartItemId), CartItem.class);
+        Cart cart=mapper.forRequest().map(cartService.getCartByUserId(request.getUserId()),Cart.class);
         if (cartItem.getQuantity() == 1) {
             delete(cartItemId);
         } else {
             cartItem.setQuantity(cartItem.getQuantity() - 1);
-            // cartItem.setTotalPrice(totalPrice((calculateFinalPrice(cartItem.getUnitPrice(),cartItem.getDiscount())), cartItem.getQuantity()));
             Product product = mapper.forResponse().map(productService.getById(request.getProductId()), Product.class);
-            cartService.minusPriceTotalPrice(totalPrice(product.getUnitPrice(), request.getQuantity()), request.getCartId());
+            cartService.minusPriceTotalPrice(totalPrice(product.getUnitPrice(), request.getQuantity()), cart.getId());
             cartItem.setId(cartItemId);
             cartItem.setTotalPrice(cartItem.getTotalPrice() - totalPrice(product.getUnitPrice(), request.getQuantity()));
             repository.save(cartItem);

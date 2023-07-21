@@ -2,16 +2,23 @@ package com.example.ecommercemono2.business.concretes;
 
 import com.example.ecommercemono2.business.abstracts.*;
 import com.example.ecommercemono2.business.dto.request.order.CreateOrderRequest;
-import com.example.ecommercemono2.business.rules.PaymentRules;
+import com.example.ecommercemono2.business.dto.response.order.GetAllOrderResponse;
+import com.example.ecommercemono2.business.dto.response.order.GetOrderResponse;
+import com.example.ecommercemono2.business.rules.OrderRules;
 import com.example.ecommercemono2.business.rules.UserRules;
+import com.example.ecommercemono2.common.dto.PaymentRequest;
 import com.example.ecommercemono2.common.dto.payment.OrderPaymentRequest;
+import com.example.ecommercemono2.common.dto.payment.TakeBackPaymentRequest;
 import com.example.ecommercemono2.common.mapper.ModelMapperService;
 import com.example.ecommercemono2.entities.Cart;
+import com.example.ecommercemono2.entities.CartItem;
 import com.example.ecommercemono2.entities.Order;
+import com.example.ecommercemono2.entities.OrderDetails;
 import com.example.ecommercemono2.repository.OrderRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -25,6 +32,7 @@ public class OrderManager implements OrderService {
     private final CartItemService cartItemService;
     private final ProductService productService;
     private final PaymentService paymentService;
+    private final OrderRules rules;
     @Override
     public void add(CreateOrderRequest request) {
         userRules.checkIfExistUserById(request.getUserId());
@@ -52,7 +60,28 @@ public class OrderManager implements OrderService {
     }
 
     @Override
-    public void cancel(UUID userId, UUID orderId) {
-        System.err.println("deneme");
+    public void cancel(UUID userId, UUID orderId, PaymentRequest request) {
+        userRules.checkIfExistUserById(userId);
+        rules.checkIfOrderExist(orderId);
+        TakeBackPaymentRequest takeBackPaymentRequest=mapper.forRequest().map(request, TakeBackPaymentRequest.class);
+        paymentService.takeBackPayment(takeBackPaymentRequest);
+        productService.takeBackStock(getById(orderId).getOrderDetails());
+        repository.deleteById(orderId);
+    }
+
+    @Override
+    public List<GetAllOrderResponse> getAll() {
+        return repository.findAll().stream().map(order->mapper.forResponse().map(order, GetAllOrderResponse.class)).toList();
+    }
+
+    @Override
+    public List<GetAllOrderResponse> getAll(UUID userId) {
+        return repository.findAllByUserId(userId).stream().map(order -> mapper.forResponse().map(order,GetAllOrderResponse.class)).toList();
+    }
+
+    @Override
+    public GetOrderResponse getById(UUID id) {
+        rules.checkIfOrderExist(id);
+        return mapper.forResponse().map(repository.findById(id).orElseThrow(), GetOrderResponse.class);
     }
 }

@@ -13,6 +13,7 @@ import com.example.ecommercemono2.business.dto.response.product.UpdateProductRes
 import com.example.ecommercemono2.business.rules.ProductRules;
 import com.example.ecommercemono2.common.mapper.ModelMapperService;
 import com.example.ecommercemono2.entities.CartItem;
+import com.example.ecommercemono2.entities.OrderDetails;
 import com.example.ecommercemono2.entities.Product;
 import com.example.ecommercemono2.repository.ProductRepository;
 import lombok.AllArgsConstructor;
@@ -90,6 +91,15 @@ public class ProductManager implements ProductService {
         for (CartItem cartItem:cartItems){
             Product product=mapper.forResponse().map(getById(cartItem.getProduct().getId()),Product.class);
             product.setStock(product.getStock()-cartItem.getQuantity());
+            repository.save(product);
+        }
+    }
+
+    @Override
+    public void takeBackStock(List<OrderDetails> orderDetailsList) {
+        for (OrderDetails orderDetails:orderDetailsList){
+            Product product=mapper.forRequest().map(getById(orderDetails.getProductId()),Product.class);
+            product.setStock(orderDetails.getQuantity()+product.getStock());
             repository.save(product);
         }
     }

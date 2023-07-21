@@ -1,8 +1,6 @@
-package com.example.ecommercemono2.entities;
+package com.example.ecommercemono2.business.dto.response.orderDetails;
 
 import com.example.ecommercemono2.entities.enums.Color;
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,14 +9,11 @@ import lombok.Setter;
 
 import java.util.UUID;
 
-@Entity
-@Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class OrderDetails {
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+@Getter
+@Setter
+public class GetAllOrderDetailsResponse {
     private UUID id;
     private String name;
     private double unitPrice;
@@ -29,8 +24,6 @@ public class OrderDetails {
     private String brandName;
     private int quantity;
     private double totalPrice;
-    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    @JsonBackReference
-    private Order order;
+    private UUID orderId;
     private UUID productId;
 }

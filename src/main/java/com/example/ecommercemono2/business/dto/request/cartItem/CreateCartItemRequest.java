@@ -12,7 +12,7 @@ import java.util.UUID;
 @Getter
 @Setter
 public class CreateCartItemRequest {
-    private UUID cartId;
+    private UUID userId;
     private UUID productId;
     private int quantity;
 

@@ -53,4 +53,7 @@ public class Message {
         public static String PaymentNotExists="Payment Is Not Exist";
         public static String BalanceNotEnough="Balance Not Enough";
     }
+    public static class Order {
+        public static String NotExistId = "Order Is Not Exist";
+    }
 }
