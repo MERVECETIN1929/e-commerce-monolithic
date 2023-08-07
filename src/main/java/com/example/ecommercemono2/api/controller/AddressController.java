@@ -7,7 +7,12 @@ import com.example.ecommercemono2.business.dto.response.address.CreateAddressRes
 import com.example.ecommercemono2.business.dto.response.address.GetAddressResponse;
 import com.example.ecommercemono2.business.dto.response.address.GetAllAddressResponse;
 import com.example.ecommercemono2.business.dto.response.address.UpdateAddressResponse;
+
+
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+
+
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,13 +24,14 @@ import java.util.UUID;
 public class AddressController {
     private final AddressService service;
 
+
     @PostMapping
-    public CreateAddressResponse add(@RequestBody CreateAddressRequest request) {
+    public CreateAddressResponse add(@Valid  @RequestBody CreateAddressRequest request) {
         return service.add(request);
     }
 
     @PutMapping("/{id}")
-    public UpdateAddressResponse update(@PathVariable UUID id, @RequestBody UpdateAddressRequest request) {
+    public UpdateAddressResponse update(@PathVariable UUID id,@Valid  @RequestBody UpdateAddressRequest request) {
         return service.update(id, request);
     }
 

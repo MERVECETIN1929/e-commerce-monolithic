@@ -39,7 +39,7 @@ public class RestExceptionHandler {
         return new ExceptionResult<>(ExceptionTypes.Exception.DataIntegrityViolation, exception.getMessage());
     }
 
-    @ExceptionHandler // hata yönetimini yapıyoruz
+    @ExceptionHandler
     @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
     public ExceptionResult<Object> handleBusinessException(BusinessException exception) {
 

@@ -18,4 +18,6 @@ public class UpdateCartItemResponse {
     private double productUnitPrice;
     private int quantity;
     private double totalPrice;
+    private UUID cartUserId;
+
 }

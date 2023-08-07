@@ -15,6 +15,7 @@ public class Message {
 
     public static class CartItem {
         public static String NotExistId = "CartItem Is Not Exist";
+        public static String CardIsEmpty="Cart Is Empty";
 
     }
 
@@ -55,5 +56,15 @@ public class Message {
     }
     public static class Order {
         public static String NotExistId = "Order Is Not Exist";
+    }
+    public static class Invoice {
+        public static String NotExistId = "Invoice Is Not Exist";
+
+
+    }
+    public static class Security {
+        public static String NotEqualsIds = "Not match ids";
+
+
     }
 }

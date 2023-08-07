@@ -18,4 +18,9 @@ public class CartItemRules {
             throw new BusinessException(Message.CartItem.NotExistId);
         }
     }
+    public void cardIsEmpty(UUID cardId){
+        if(!repository.existsCartItemByCartId(cardId)){
+            throw new BusinessException(Message.CartItem.CardIsEmpty);
+        }
+    }
 }

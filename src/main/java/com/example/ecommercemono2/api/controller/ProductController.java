@@ -8,6 +8,7 @@ import com.example.ecommercemono2.business.dto.response.product.CreateProductRes
 import com.example.ecommercemono2.business.dto.response.product.GetAllProductsResponse;
 import com.example.ecommercemono2.business.dto.response.product.GetProductResponse;
 import com.example.ecommercemono2.business.dto.response.product.UpdateProductResponse;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,12 +22,12 @@ public class ProductController {
     private final ProductService service;
 
     @PostMapping
-    public CreateProductResponse add(@RequestBody CreateProductRequest request) {
+    public CreateProductResponse add(@Valid @RequestBody CreateProductRequest request) {
         return service.add(request);
     }
 
     @PutMapping("/{id}")
-    public UpdateProductResponse update(@PathVariable UUID id, @RequestBody UpdateProductRequest request) {
+    public UpdateProductResponse update(@PathVariable UUID id,@Valid  @RequestBody UpdateProductRequest request) {
         return service.update(id, request);
     }
 
@@ -46,7 +47,7 @@ public class ProductController {
     }
 
     @PutMapping("/change-product-unit-price/{id}")
-    public void changeProductUnitPrice(@PathVariable UUID id, @RequestBody ChangeProductUnitPrice changeProductUnitPrice) {
+    public void changeProductUnitPrice(@PathVariable UUID id,@Valid  @RequestBody ChangeProductUnitPrice changeProductUnitPrice) {
         service.changeProductUnitPrice(id, changeProductUnitPrice);
     }
 }

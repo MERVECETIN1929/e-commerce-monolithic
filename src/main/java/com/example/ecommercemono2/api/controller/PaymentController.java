@@ -8,6 +8,7 @@ import com.example.ecommercemono2.business.dto.response.payment.CreatePaymentRes
 import com.example.ecommercemono2.business.dto.response.payment.GetAllPaymentsResponse;
 import com.example.ecommercemono2.business.dto.response.payment.GetPaymentResponse;
 import com.example.ecommercemono2.business.dto.response.payment.UpdatePaymentResponse;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,12 +21,12 @@ import java.util.UUID;
 public class PaymentController {
     private final PaymentService service;
     @PostMapping
-    public CreatePaymentResponse add(@RequestBody CreatePaymentRequest request) {
+    public CreatePaymentResponse add(@Valid @RequestBody CreatePaymentRequest request) {
         return service.add(request);
     }
 
     @PutMapping("/{id}")
-    public UpdatePaymentResponse update(@PathVariable UUID id, @RequestBody UpdatePaymentRequest request) {
+    public UpdatePaymentResponse update(@PathVariable UUID id,@Valid  @RequestBody UpdatePaymentRequest request) {
         return service.update(id, request);
     }
 

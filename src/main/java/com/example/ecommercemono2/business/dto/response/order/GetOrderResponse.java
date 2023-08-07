@@ -24,5 +24,6 @@ public class GetOrderResponse {
     private LocalDate orderDate;
     private LocalDate arrivalDate;
     private double totalPrice;
+    private boolean isItPaid;
     private List<OrderDetails> orderDetails;
 }

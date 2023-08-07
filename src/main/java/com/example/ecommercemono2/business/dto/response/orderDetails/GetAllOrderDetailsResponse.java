@@ -26,4 +26,5 @@ public class GetAllOrderDetailsResponse {
     private double totalPrice;
     private UUID orderId;
     private UUID productId;
+    private UUID userId;
 }

@@ -33,7 +33,6 @@ public class CartItemManager implements CartItemService {
 
 
     public CreateCartItemResponse add(CreateCartItemRequest request) {
-
         // EĞER SEPET İD VE KULLANICI İD AYNI OLAN KAYIR VARSA ADD SADECE SEPETTE BULUNAN ÜRÜNÜN MİKTARINI ARTTIRIR
         Cart cart=mapper.forRequest().map(cartService.getCartByUserId(request.getUserId()),Cart.class);
         CartItem cartItem = repository.findCartItemByCartIdAndProductId(cart.getId(), request.getProductId());
@@ -41,9 +40,11 @@ public class CartItemManager implements CartItemService {
         Product product = mapper.forResponse().map(productService.getById(request.getProductId()), Product.class);
         if (cartItem == null) {
             cartItem = requestCartItem;
+            cartItem.setCart(cart);
             cartItem.setId(UUID.randomUUID());
             cartService.addPriceTotalPrice(product.getUnitPrice() * request.getQuantity(), cart.getId());
             cartItem.setTotalPrice(request.getQuantity() * product.getUnitPrice());
+
         } else {
             increaseQuantity(request, cartItem.getId());
         }
@@ -84,6 +85,7 @@ public class CartItemManager implements CartItemService {
 
     @Override
     public List<CartItem> getAllCartItemsByCartId(UUID cartId) {
+        rules.cardIsEmpty(cartId);
         return repository.findAllByCartId(cartId);
     }
 

@@ -17,6 +17,7 @@ import java.util.UUID;
 public class OrderDetailsController {
     private final OrderDetailsService service;
     @GetMapping("/{orderId}")
+    //@PostAuthorize("returnObject.userId.equals(authentication.principal.id)")
     public List<GetAllOrderDetailsResponse> getAllOrderDetailsByOrderId(@RequestParam UUID orderId){
         return service.getAllOrderDetailsByOrderId(orderId);
     }

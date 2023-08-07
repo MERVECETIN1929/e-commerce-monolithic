@@ -7,6 +7,7 @@ import com.example.ecommercemono2.business.dto.response.brand.CreateBrandRespons
 import com.example.ecommercemono2.business.dto.response.brand.GetAllBrandsResponse;
 import com.example.ecommercemono2.business.dto.response.brand.GetBrandResponse;
 import com.example.ecommercemono2.business.dto.response.brand.UpdateBrandResponse;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,12 +22,12 @@ public class BrandController {
     private final BrandService service;
 
     @PostMapping
-    public CreateBrandResponse add(@RequestBody CreateBrandRequest request) {
+    public CreateBrandResponse add(@Valid  @RequestBody CreateBrandRequest request) {
         return service.add(request);
     }
 
     @PutMapping("/{id}")
-    public UpdateBrandResponse update(@PathVariable UUID id, @RequestBody UpdateBrandRequest request) {
+    public UpdateBrandResponse update(@PathVariable UUID id,@Valid  @RequestBody UpdateBrandRequest request) {
         return service.update(id, request);
     }
 

@@ -1,5 +1,6 @@
 package com.example.ecommercemono2.business.concretes;
 
+import com.example.ecommercemono2.business.abstracts.PayService;
 import com.example.ecommercemono2.business.abstracts.PaymentService;
 import com.example.ecommercemono2.business.dto.request.payment.CreatePaymentRequest;
 import com.example.ecommercemono2.business.dto.request.payment.UpdatePaymentRequest;
@@ -8,7 +9,6 @@ import com.example.ecommercemono2.business.dto.response.payment.GetAllPaymentsRe
 import com.example.ecommercemono2.business.dto.response.payment.GetPaymentResponse;
 import com.example.ecommercemono2.business.dto.response.payment.UpdatePaymentResponse;
 import com.example.ecommercemono2.business.rules.PaymentRules;
-import com.example.ecommercemono2.common.dto.PaymentRequest;
 import com.example.ecommercemono2.common.dto.payment.OrderPaymentRequest;
 import com.example.ecommercemono2.common.dto.payment.TakeBackPaymentRequest;
 import com.example.ecommercemono2.common.mapper.ModelMapperService;
@@ -20,9 +20,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.UUID;
 
-@Service
+@Service(value="withCreditCard")
 @AllArgsConstructor
-public class PaymentManager implements PaymentService {
+public class PaymentManager implements PaymentService, PayService {
     private final ModelMapperService mapper;
     private final PaymentRepository repository;
     private final PaymentRules rules;
@@ -63,12 +63,13 @@ public class PaymentManager implements PaymentService {
     }
 
     @Override
-    public void pay(OrderPaymentRequest request) {
+    public boolean pay(OrderPaymentRequest request) {
         rules.existsPaymentByCardNumberAndCardHolderNameAndCvvAndMonthAndYear(request);
         rules.isBalanceEnough(request);
         Payment payment=repository.findPaymentByCardNumber(request.getCardNumber());
         payment.setBalance(payment.getBalance()- request.getTotalPrice());
         repository.save(payment);
+        return true;
     }
 
     @Override

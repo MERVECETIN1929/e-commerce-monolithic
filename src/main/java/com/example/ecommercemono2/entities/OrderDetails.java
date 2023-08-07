@@ -2,7 +2,6 @@ package com.example.ecommercemono2.entities;
 
 import com.example.ecommercemono2.entities.enums.Color;
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

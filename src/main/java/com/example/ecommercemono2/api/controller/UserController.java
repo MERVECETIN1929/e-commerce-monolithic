@@ -1,12 +1,13 @@
 package com.example.ecommercemono2.api.controller;
 
 import com.example.ecommercemono2.business.abstracts.UserService;
+import com.example.ecommercemono2.business.dto.request.admin.LoginAdminRequest;
 import com.example.ecommercemono2.business.dto.request.user.CreateUserRequest;
+import com.example.ecommercemono2.business.dto.request.user.LoginUserRequest;
 import com.example.ecommercemono2.business.dto.request.user.UpdateUserRequest;
-import com.example.ecommercemono2.business.dto.response.user.CreateUserResponse;
-import com.example.ecommercemono2.business.dto.response.user.GetAllUsersResponse;
-import com.example.ecommercemono2.business.dto.response.user.GetUserResponse;
-import com.example.ecommercemono2.business.dto.response.user.UpdateUserResponse;
+import com.example.ecommercemono2.business.dto.response.admin.LoginAdminResponse;
+import com.example.ecommercemono2.business.dto.response.user.*;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,12 +21,12 @@ public class UserController {
     private final UserService service;
 
     @PostMapping
-    public CreateUserResponse add(@RequestBody CreateUserRequest request) {
+    public CreateUserResponse add(@Valid @RequestBody CreateUserRequest request) {
         return service.add(request);
     }
 
     @PutMapping("/{id}")
-    public UpdateUserResponse update(@PathVariable UUID id, @RequestBody UpdateUserRequest request) {
+    public UpdateUserResponse update(@PathVariable UUID id,@Valid  @RequestBody UpdateUserRequest request) {
         return service.update(id, request);
     }
 
@@ -42,5 +43,13 @@ public class UserController {
     @DeleteMapping("/{id}")
     public void delete(@PathVariable UUID id) {
         service.delete(id);
+    }
+    @PostMapping("/login")
+    public LoginUserResponse login(@Valid @RequestBody LoginUserRequest request) {
+        return service.login(request);
+    }
+    @PostMapping("/admin/login")
+    public LoginAdminResponse loginAdmin(@Valid @RequestBody LoginAdminRequest request) {
+        return service.loginAdmin(request);
     }
 }

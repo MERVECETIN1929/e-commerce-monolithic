@@ -24,7 +24,7 @@ public class CartManager implements CartService {
     private final CartRules rules;
     private final CartRepository repository;
 
-//todo product price değişirse total price değiş
+
     @Override
     public CreateCartResponse add(CreateCartRequest request) {
         Cart cart = mapper.forRequest().map(request, Cart.class);

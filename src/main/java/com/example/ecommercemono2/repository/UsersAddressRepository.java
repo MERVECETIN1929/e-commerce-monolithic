@@ -13,6 +13,7 @@ public interface UsersAddressRepository extends JpaRepository<UsersAddress, UUID
     UsersAddress findUsersAddressByUserIdAndAddressId(UUID userId, UUID addressId);
 
     boolean existsUsersAddressByUserIdAndAddressId(UUID userId, UUID addressId);
+    // todo change location
 
     @Query("SELECT a FROM UsersAddress users_address " +
             "INNER JOIN Address a on users_address.address.id=a.id  " +

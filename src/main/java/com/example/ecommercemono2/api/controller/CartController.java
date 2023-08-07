@@ -7,7 +7,9 @@ import com.example.ecommercemono2.business.dto.response.cart.CreateCartResponse;
 import com.example.ecommercemono2.business.dto.response.cart.GetAllCartsResponse;
 import com.example.ecommercemono2.business.dto.response.cart.GetCartResponse;
 import com.example.ecommercemono2.business.dto.response.cart.UpdateCartResponse;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,16 +23,17 @@ public class CartController {
     private final CartService service;
 
     @PostMapping
-    public CreateCartResponse add(@RequestBody CreateCartRequest request) {
+    public CreateCartResponse add(@Valid @RequestBody CreateCartRequest request) {
         return service.add(request);
     }
 
     @PutMapping("/{id}")
-    public UpdateCartResponse update(@PathVariable UUID id, @RequestBody UpdateCartRequest request) {
+    public UpdateCartResponse update(@PathVariable UUID id,@Valid  @RequestBody UpdateCartRequest request) {
         return service.update(id, request);
     }
 
     @GetMapping("/{id}")
+    @PostAuthorize("returnObject.userId==authentication.principal.id")
     public GetCartResponse getById(@PathVariable UUID id) {
         return service.getById(id);
     }

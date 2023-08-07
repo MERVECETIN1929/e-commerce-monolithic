@@ -7,25 +7,31 @@ import com.example.ecommercemono2.business.dto.response.cartItem.CreateCartItemR
 import com.example.ecommercemono2.business.dto.response.cartItem.GetAllCartItemsResponse;
 import com.example.ecommercemono2.business.dto.response.cartItem.GetCartItemResponse;
 import com.example.ecommercemono2.business.dto.response.cartItem.UpdateCartItemResponse;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 import java.util.UUID;
 
 @AllArgsConstructor
 @RestController
 @RequestMapping("/api/cartItem")
-public class CartItemController {// todo add http status code
+public class CartItemController {
+    // todo add http status code
     private final CartItemService service;
 
     @PostMapping
-    public CreateCartItemResponse add(@RequestBody CreateCartItemRequest request) {
+    @PreAuthorize("hasRole('USER') and #request.userId.equals(authentication.principal.id)")
+    public CreateCartItemResponse add(@Valid @RequestBody CreateCartItemRequest request) {
         return service.add(request);
     }
 
     @PutMapping("/{id}")
-    public UpdateCartItemResponse update(@PathVariable UUID id, @RequestBody UpdateCartItemRequest request) {
+    @PostAuthorize("returnObject.cartUserId.equals(authentication.principal.id)")
+    //@PostAuthorize("returnObject.cartUserId==authentication.principal.id")
+    public UpdateCartItemResponse update(@PathVariable UUID id,@Valid  @RequestBody UpdateCartItemRequest request) {
         return service.update(id, request);
     }
 
@@ -45,12 +51,12 @@ public class CartItemController {// todo add http status code
     }
 
     @PutMapping("/increaseQuantity/{id}")
-    public void increaseQuantity(@RequestBody CreateCartItemRequest request, @PathVariable UUID id) {
+    public void increaseQuantity(@Valid @RequestBody CreateCartItemRequest request, @PathVariable UUID id) {
         service.increaseQuantity(request, id);
     }
 
     @PutMapping("/reduceQuantity/{id}")
-    public void reduceQuantity(@RequestBody CreateCartItemRequest request, @PathVariable UUID id) {
+    public void reduceQuantity(@Valid @RequestBody CreateCartItemRequest request, @PathVariable UUID id) {
         service.reduceQuantity(request, id);
     }
 }

@@ -7,6 +7,7 @@ import com.example.ecommercemono2.business.dto.response.category.CreateCategoryR
 import com.example.ecommercemono2.business.dto.response.category.GetAllCategoriesResponse;
 import com.example.ecommercemono2.business.dto.response.category.GetCategoryResponse;
 import com.example.ecommercemono2.business.dto.response.category.UpdateCategoryResponse;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,12 +21,12 @@ public class CategoryController {
     private final CategoryService service;
 
     @PostMapping
-    public CreateCategoryResponse add(@RequestBody CreateCategoryRequest request) {
+    public CreateCategoryResponse add(@Valid @RequestBody CreateCategoryRequest request) {
         return service.add(request);
     }
 
     @PutMapping("/{id}")
-    public UpdateCategoryResponse update(@PathVariable UUID id, @RequestBody UpdateCategoryRequest request) {
+    public UpdateCategoryResponse update(@PathVariable UUID id,@Valid  @RequestBody UpdateCategoryRequest request) {
         return service.update(id, request);
     }
 

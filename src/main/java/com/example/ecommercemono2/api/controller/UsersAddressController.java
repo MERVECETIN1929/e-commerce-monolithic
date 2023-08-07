@@ -5,6 +5,7 @@ import com.example.ecommercemono2.business.dto.request.usersAddress.CreateUsersA
 import com.example.ecommercemono2.business.dto.request.usersAddress.UpdateUsersAddressRequest;
 import com.example.ecommercemono2.business.dto.response.usersAddress.GetAllUserAddressesResponse;
 import com.example.ecommercemono2.business.dto.response.usersAddress.GetUserAddressResponse;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,7 +19,7 @@ public class UsersAddressController {
     private final UsersAddressService service;
 
     @PostMapping("/{userId}")
-    public void add(@RequestParam UUID userId, @RequestBody CreateUsersAddressRequest request) {
+    public void add(@RequestParam UUID userId,@Valid @RequestBody CreateUsersAddressRequest request) {
         service.add(userId, request);
     }
 
@@ -38,7 +39,7 @@ public class UsersAddressController {
     }
 
     @PutMapping("/{usersAddressId}")
-    public void updateUsersAddress(@PathVariable UUID usersAddressId, @RequestBody UpdateUsersAddressRequest updateUsersAddressRequest) {
+    public void updateUsersAddress(@PathVariable UUID usersAddressId,@Valid  @RequestBody UpdateUsersAddressRequest updateUsersAddressRequest) {
         service.updateUsersAddress(usersAddressId, updateUsersAddressRequest);
     }
 }

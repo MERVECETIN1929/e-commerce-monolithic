@@ -35,5 +35,8 @@ public class Order {
     private LocalDate orderDate;
     private LocalDate arrivalDate;
     private double totalPrice;
+    private boolean isPreparation;
+    private boolean isItPaid;
+
 
 }
