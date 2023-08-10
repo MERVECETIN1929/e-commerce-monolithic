@@ -1,10 +1,10 @@
 package com.example.ecommercemono2.common.mapper;
 
 
-import com.example.ecommercemono2.business.abstracts.BrandService;
-import com.example.ecommercemono2.business.abstracts.CategoryService;
-import com.example.ecommercemono2.business.dto.request.product.CreateProductRequest;
-import com.example.ecommercemono2.business.dto.request.product.UpdateProductRequest;
+import com.example.ecommercemono2.business.brand.BrandService;
+import com.example.ecommercemono2.business.category.CategoryService;
+import com.example.ecommercemono2.business.product.CreateProductRequest;
+import com.example.ecommercemono2.business.product.UpdateProductRequest;
 import com.example.ecommercemono2.entities.Brand;
 import com.example.ecommercemono2.entities.Category;
 import com.example.ecommercemono2.entities.Product;

@@ -13,7 +13,7 @@ import java.util.UUID;
 public class CartItemRules {
     private final CartItemRepository repository;
 
-    public void existCartById(UUID id) {
+    public void existCartItemById(UUID id) {
         if (!repository.existsCartItemById(id)) {
             throw new BusinessException(Message.CartItem.NotExistId);
         }

@@ -1,7 +1,7 @@
 package com.example.ecommercemono2.api.controller;
 
-import com.example.ecommercemono2.business.abstracts.OrderDetailsService;
-import com.example.ecommercemono2.business.dto.response.orderDetails.GetAllOrderDetailsResponse;
+import com.example.ecommercemono2.business.orderDetails.OrderDetailsService;
+import com.example.ecommercemono2.business.orderDetails.GetAllOrderDetailsResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

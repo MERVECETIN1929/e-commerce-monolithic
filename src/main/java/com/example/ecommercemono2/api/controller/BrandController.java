@@ -1,13 +1,8 @@
 package com.example.ecommercemono2.api.controller;
 
-import com.example.ecommercemono2.business.abstracts.BrandService;
-import com.example.ecommercemono2.business.dto.request.brand.CreateBrandRequest;
-import com.example.ecommercemono2.business.dto.request.brand.UpdateBrandRequest;
-import com.example.ecommercemono2.business.dto.response.brand.CreateBrandResponse;
-import com.example.ecommercemono2.business.dto.response.brand.GetAllBrandsResponse;
-import com.example.ecommercemono2.business.dto.response.brand.GetBrandResponse;
-import com.example.ecommercemono2.business.dto.response.brand.UpdateBrandResponse;
-import jakarta.validation.Valid;
+import com.example.ecommercemono2.business.brand.BrandService;
+import com.example.ecommercemono2.business.brand.GetAllBrandsResponse;
+import com.example.ecommercemono2.business.brand.GetBrandResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,15 +16,7 @@ public class BrandController {
     // todo add http status code
     private final BrandService service;
 
-    @PostMapping
-    public CreateBrandResponse add(@Valid  @RequestBody CreateBrandRequest request) {
-        return service.add(request);
-    }
 
-    @PutMapping("/{id}")
-    public UpdateBrandResponse update(@PathVariable UUID id,@Valid  @RequestBody UpdateBrandRequest request) {
-        return service.update(id, request);
-    }
 
     @GetMapping("/{id}")
     public GetBrandResponse getById(@PathVariable UUID id) {
@@ -41,8 +28,5 @@ public class BrandController {
         return service.getAll();
     }
 
-    @DeleteMapping("/{id}")
-    public void delete(@PathVariable UUID id) {
-        service.delete(id);
-    }
+
 }

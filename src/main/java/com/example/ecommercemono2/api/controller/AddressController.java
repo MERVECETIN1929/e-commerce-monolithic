@@ -1,12 +1,12 @@
 package com.example.ecommercemono2.api.controller;
 
-import com.example.ecommercemono2.business.abstracts.AddressService;
-import com.example.ecommercemono2.business.dto.request.address.CreateAddressRequest;
-import com.example.ecommercemono2.business.dto.request.address.UpdateAddressRequest;
-import com.example.ecommercemono2.business.dto.response.address.CreateAddressResponse;
-import com.example.ecommercemono2.business.dto.response.address.GetAddressResponse;
-import com.example.ecommercemono2.business.dto.response.address.GetAllAddressResponse;
-import com.example.ecommercemono2.business.dto.response.address.UpdateAddressResponse;
+import com.example.ecommercemono2.business.address.AddressService;
+import com.example.ecommercemono2.business.address.CreateAddressRequest;
+import com.example.ecommercemono2.business.address.UpdateAddressRequest;
+import com.example.ecommercemono2.business.address.CreateAddressResponse;
+import com.example.ecommercemono2.business.address.GetAddressResponse;
+import com.example.ecommercemono2.business.address.GetAllAddressResponse;
+import com.example.ecommercemono2.business.address.UpdateAddressResponse;
 
 
 import jakarta.validation.Valid;
@@ -30,10 +30,6 @@ public class AddressController {
         return service.add(request);
     }
 
-    @PutMapping("/{id}")
-    public UpdateAddressResponse update(@PathVariable UUID id,@Valid  @RequestBody UpdateAddressRequest request) {
-        return service.update(id, request);
-    }
 
     @GetMapping("/{id}")
     public GetAddressResponse getById(@PathVariable UUID id) {
@@ -45,8 +41,5 @@ public class AddressController {
         return service.getAll();
     }
 
-    @DeleteMapping("/{id}")
-    public void delete(@PathVariable UUID id) {
-        service.delete(id);
-    }
+
 }

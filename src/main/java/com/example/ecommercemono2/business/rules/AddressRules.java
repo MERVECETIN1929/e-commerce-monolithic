@@ -1,6 +1,6 @@
 package com.example.ecommercemono2.business.rules;
 
-import com.example.ecommercemono2.business.dto.request.address.CreateAddressRequest;
+import com.example.ecommercemono2.business.address.CreateAddressRequest;
 import com.example.ecommercemono2.common.constants.Message;
 import com.example.ecommercemono2.common.exception.BusinessException;
 import com.example.ecommercemono2.repository.AddressRepository;

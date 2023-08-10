@@ -1,7 +1,7 @@
 package com.example.ecommercemono2.common.mapper;
 
-import com.example.ecommercemono2.business.abstracts.CartService;
-import com.example.ecommercemono2.business.abstracts.ProductService;
+import com.example.ecommercemono2.business.cart.CartService;
+import com.example.ecommercemono2.business.product.ProductService;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;

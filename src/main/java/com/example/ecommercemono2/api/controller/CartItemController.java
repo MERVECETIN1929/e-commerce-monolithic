@@ -1,12 +1,12 @@
 package com.example.ecommercemono2.api.controller;
 
-import com.example.ecommercemono2.business.abstracts.CartItemService;
-import com.example.ecommercemono2.business.dto.request.cartItem.CreateCartItemRequest;
-import com.example.ecommercemono2.business.dto.request.cartItem.UpdateCartItemRequest;
-import com.example.ecommercemono2.business.dto.response.cartItem.CreateCartItemResponse;
-import com.example.ecommercemono2.business.dto.response.cartItem.GetAllCartItemsResponse;
-import com.example.ecommercemono2.business.dto.response.cartItem.GetCartItemResponse;
-import com.example.ecommercemono2.business.dto.response.cartItem.UpdateCartItemResponse;
+import com.example.ecommercemono2.business.cartItem.CartItemService;
+import com.example.ecommercemono2.business.cartItem.CreateCartItemRequest;
+import com.example.ecommercemono2.business.cartItem.UpdateCartItemRequest;
+import com.example.ecommercemono2.business.cartItem.CreateCartItemResponse;
+import com.example.ecommercemono2.business.cartItem.GetAllCartItemsResponse;
+import com.example.ecommercemono2.business.cartItem.GetCartItemResponse;
+import com.example.ecommercemono2.business.cartItem.UpdateCartItemResponse;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PostAuthorize;
@@ -27,11 +27,10 @@ public class CartItemController {
     public CreateCartItemResponse add(@Valid @RequestBody CreateCartItemRequest request) {
         return service.add(request);
     }
-
     @PutMapping("/{id}")
     @PostAuthorize("returnObject.cartUserId.equals(authentication.principal.id)")
     //@PostAuthorize("returnObject.cartUserId==authentication.principal.id")
-    public UpdateCartItemResponse update(@PathVariable UUID id,@Valid  @RequestBody UpdateCartItemRequest request) {
+    public UpdateCartItemResponse update(@PathVariable UUID id, @Valid  @RequestBody UpdateCartItemRequest request) {
         return service.update(id, request);
     }
 
@@ -40,10 +39,7 @@ public class CartItemController {
         return service.getById(id);
     }
 
-    @GetMapping
-    public List<GetAllCartItemsResponse> getAll() {
-        return service.getAll();
-    }
+
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable UUID id) {

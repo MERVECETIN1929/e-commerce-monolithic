@@ -1,7 +1,7 @@
 package com.example.ecommercemono2.common.mapper;
 
-import com.example.ecommercemono2.business.dto.request.brand.CreateBrandRequest;
-import com.example.ecommercemono2.business.dto.request.brand.UpdateBrandRequest;
+import com.example.ecommercemono2.business.brand.CreateBrandRequest;
+import com.example.ecommercemono2.business.brand.UpdateBrandRequest;
 import com.example.ecommercemono2.entities.Brand;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;

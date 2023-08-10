@@ -1,9 +1,9 @@
 package com.example.ecommercemono2.api.controller;
 
-import com.example.ecommercemono2.business.abstracts.InvoiceService;
-import com.example.ecommercemono2.business.dto.request.invoice.CreateInvoiceRequest;
-import com.example.ecommercemono2.business.dto.response.invoice.GetAllInvoiceResponse;
-import com.example.ecommercemono2.business.dto.response.invoice.GetInvoiceResponse;
+import com.example.ecommercemono2.business.invoice.InvoiceService;
+import com.example.ecommercemono2.business.invoice.CreateInvoiceRequest;
+import com.example.ecommercemono2.business.invoice.GetAllInvoiceResponse;
+import com.example.ecommercemono2.business.invoice.GetInvoiceResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -23,7 +23,6 @@ public class InvoiceController {
         return service.getById(id);
     }
 
-
     @PostMapping
     public void add(@RequestBody CreateInvoiceRequest request){
         service.add(request);
@@ -33,11 +32,6 @@ public class InvoiceController {
     @PreAuthorize("#userId.equals(authentication.principal.id)")
     public List<GetAllInvoiceResponse> getAllByUserId(@RequestParam UUID userId){
         return service.getAllInvoiceByUserId(userId);
-    }
-
-    @GetMapping
-    public List<GetAllInvoiceResponse> getAll(){
-        return service.getAll();
     }
 
     @DeleteMapping("/{id}")

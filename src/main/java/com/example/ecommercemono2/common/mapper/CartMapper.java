@@ -1,8 +1,8 @@
 package com.example.ecommercemono2.common.mapper;
 
-import com.example.ecommercemono2.business.abstracts.UserService;
-import com.example.ecommercemono2.business.dto.request.cart.CreateCartRequest;
-import com.example.ecommercemono2.business.dto.request.cart.UpdateCartRequest;
+import com.example.ecommercemono2.business.user.UserService;
+import com.example.ecommercemono2.business.cart.CreateCartRequest;
+import com.example.ecommercemono2.business.cart.UpdateCartRequest;
 import com.example.ecommercemono2.entities.Cart;
 import com.example.ecommercemono2.entities.User;
 import lombok.AllArgsConstructor;

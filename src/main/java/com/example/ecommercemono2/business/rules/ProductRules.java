@@ -1,7 +1,7 @@
 package com.example.ecommercemono2.business.rules;
 
-import com.example.ecommercemono2.business.abstracts.BrandService;
-import com.example.ecommercemono2.business.abstracts.CategoryService;
+import com.example.ecommercemono2.business.brand.BrandService;
+import com.example.ecommercemono2.business.category.CategoryService;
 import com.example.ecommercemono2.common.constants.Message;
 import com.example.ecommercemono2.common.exception.BusinessException;
 import com.example.ecommercemono2.repository.ProductRepository;

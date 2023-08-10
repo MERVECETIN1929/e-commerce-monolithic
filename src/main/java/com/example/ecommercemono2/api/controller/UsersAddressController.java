@@ -1,10 +1,10 @@
 package com.example.ecommercemono2.api.controller;
 
-import com.example.ecommercemono2.business.abstracts.UsersAddressService;
-import com.example.ecommercemono2.business.dto.request.usersAddress.CreateUsersAddressRequest;
-import com.example.ecommercemono2.business.dto.request.usersAddress.UpdateUsersAddressRequest;
-import com.example.ecommercemono2.business.dto.response.usersAddress.GetAllUserAddressesResponse;
-import com.example.ecommercemono2.business.dto.response.usersAddress.GetUserAddressResponse;
+import com.example.ecommercemono2.business.userAddress.UsersAddressService;
+import com.example.ecommercemono2.business.userAddress.CreateUsersAddressRequest;
+import com.example.ecommercemono2.business.userAddress.UpdateUsersAddressRequest;
+import com.example.ecommercemono2.business.userAddress.GetAllUserAddressesResponse;
+import com.example.ecommercemono2.business.userAddress.GetUserAddressResponse;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
