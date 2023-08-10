@@ -52,16 +52,7 @@ public class SecurityConfigration {
                                         .hasRole(Authority.USER.name())
 
                                         .requestMatchers(
-                                                "/api/admin/address",
-                                                "/api/admin/brand",
-                                                "/api/admin/cart",
-                                                "/api/admin/cartItem",
-                                                "/api/admin/category",
-                                                "/api/admin/invoice",
-                                                "/api/admin/order",
-                                                "/api/admin/payment",
-                                                "/api/admin/product",
-                                                "/api/admin/user",
+
                                                 "/api/admin/**"
                                         )
                                         .hasRole(Authority.ADMIN.name())
